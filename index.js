@@ -1,187 +1,148 @@
 
-const CATEGORY = 'category';
-const PRODUCT = 'product';
-const menu = [
+
+const QUESTIONS = [
     {
-        type: CATEGORY,
-        name: 'Mac',
-        menu: [
-            {
-                type: PRODUCT,
-                name: 'MacBook Pro 16”',
-            },
-            {
-                type: PRODUCT,
-                name: 'iMac 24”',
-            },
-            {
-                type: PRODUCT,
-                name: 'iMac 27”',
-            },
-            {
-                type: CATEGORY,
-                name: 'Accessories',
-                menu: [
-                    {
-                        type: CATEGORY,
-                        name: 'Featured Magic',
-                        menu: [
-                            {
-                                type: PRODUCT,
-                                name: 'Magic Keyboard',
-                            },
-                            {
-                                type: PRODUCT,
-                                name: 'Magic Trackpad',
-                            },
-                        ],
-                    },
-                    {
-                        type: CATEGORY,
-                        name: 'Audio',
-                        menu: [
-                            {
-                                type: PRODUCT,
-                                name: 'AirPods Pro',
-                            },
-                            {
-                                type: PRODUCT,
-                                name: 'AirPods Max',
-                            },
-                        ],
-                    },
-                ],
-            },
-        ],
+        question: 'Сколько хромосом у здорового человека?',
+        answer: '46',
+        type: 'prompt',
     },
     {
-        type: CATEGORY,
-        name: 'Ipad',
-        menu: [
-            {
-                type: PRODUCT,
-                name: 'iPad Pro 11”',
-            },
-            {
-                type: PRODUCT,
-                name: 'iPad Pro 12.9”',
-            },
-            {
-                type: CATEGORY,
-                name: 'Accessories',
-                menu: [
-                    {
-                        type: PRODUCT,
-                        name: 'Apple Pencil',
-                    },
-                    {
-                        type: PRODUCT,
-                        name: 'Smart Keyboard',
-                    },
-                ],
-            },
-        ],
+        question: 'Путин - хуйло?',
+        answer: true,
+        type: 'confirm',
     },
     {
-        type: CATEGORY,
-        name: 'Empty Category',
-        menu: [],
+        question: 'Сколько хромосом у Путина?',
+        answer: '47',
+        type: 'prompt',
     },
-]
+    {
+        question: 'Сколько тупых овец в московии (в млн)?',
+        answer: '144',
+        type: 'prompt',
+    },
+    {
+        question: 'Снесли ли памятник Екатерине-2 в Одессе?',
+        answer: true,
+        type: 'confirm',
+    },
+    {
+        question: 'Сколько черных пакетов выделяются на одного орка?',
+        answer: '1',
+        type: 'prompt',
+    },
+    {
+        question: 'На сколько вы оцениваете работу ЗСУ от 1 до 10?',
+        answer: '10',
+        type: 'prompt',
+    },
+    {
+        question: 'Со скольких позиций готовилось нападение на Беларусь?',
+        answer: '4',
+        type: 'prompt',
+    },
+    {
+        question: 'Нужно ли сжигать сосийский флаг?',
+        answer: true,
+        type: 'confirm',
+    },
+    {
+        question: 'Поддерживаете ли вы уход иностранных компаний из московии?',
+        answer: true,
+        type: 'confirm',
+    },
+    {
+        question: 'Считаете ли вы сосию своим домом?',
+        answer: false,
+        type: 'confirm',
+    },
+];
 
 
-
-function printMenu(menu, level = 1) {
-    let res = '';
-    let indent = ' '.repeat(level)
-    for (const prop of menu) {
-        if (prop.type === PRODUCT) {
-            res = res + `${indent} -${prop.name}\n`
-
-        } else if (prop.type === CATEGORY) {
-            res = res + `${indent} * ${prop.name}\n` + printMenu(prop.menu, (level + 1))
+quizQuestion(QUESTIONS)
+function quizQuestion(QUESTIONS) {
+    let result = 0
+    for (const prop of QUESTIONS) {
+        if (prop.type === 'prompt') {
+            let userAnswer = prompt(`${prop.question}`)
+            result = countResult(userAnswer, prop.answer, result)
+        } else {
+            let userAnswer = confirm(`${prop.question}`)
+            result = countResult(userAnswer, prop.answer, result)
         }
     }
-    return res;
+    return alert(`Вы заработали ${result} баллов из 110`)
+}
+
+
+function countResult(a, b, result) {
+    if (a === b) {
+        result += 10
+    } else {
+        result += 0
+    }
+    return result
 }
 
 
 
+// Реализовать опросник для пользователя,
+
+// Задать ему, с помощью модальных окон, несколько вопросов и оценить его ответы.
+
+// За правильный ответ начисляется 10 очков, за неправильный или отказ от ответа - 0.
+
+// После прохода всех вопросов вывести, с помощью alert, результат.
 
 
 
+// Чтоб задать вопрос ииспользуем 2 функции: prompt() или confirm().
+
+// (!) Учитывая что prompt возвращает строку, преобразование типа в число делать не нужно, просто сравнивай ответ с правильным используя тройное равно.
 
 
 
-/**
- * Функция конвертирует объект menu в строку.
- *
- * Пример реального меню: https://www.apple.com/
- *
- * Возможное время выполнения: 23 мин
- *
-//  * @param {{}} menu - рекурсивная структура
-//  * @param {number} level - уровень вложенности, используйте его для отображения отступов
-//  * @returns {string}
- */
-//   for (текущий_элемент_меню of меню) {
-//     if (тип текущий_элемент_меню равен PRODUCT) {
-//       прибавить к результату строку: отступ - имя текущий_элемент_меню добавить перевод строки \n
-//     } else if (тип текущий_элемент_меню равен категория) {
-//       прибавить к результату строку: отступ * имя текущий_элемент_меню добавить перевод строки \n вызвать printMenu(меню текущий_элемент_меню,  уровень_вложенности + 1)
-//     }
-//   }
+// Список вопросов:
+
+// Сколько хромосом у здорового человека? Ответ: '46'
+
+// Путин - хуйло? Ответ: true
+
+// Сколько хромосом у Путина? Ответ: '47'
+
+// Сколько тупых овец в московии (в млн)? Ответ: '144'
+
+// Снесли ли памятник Екатерине-2 в Одессе? Ответ: true
+
+// Сколько черных пакетов выделяются на одного орка? Ответ: '1'
+
+// На сколько вы оцениваете работу ЗСУ от 1 до 10? Ответ: '10'
+
+// Со скольких позиций готовилось нападение на Беларусь? Ответ: '4'
+
+// Нужно ли сжигать сосийский флаг? Ответ: true
+
+// Поддерживаете ли вы уход иностранных компаний из московии? Ответ: true
+
+// Считаете ли вы сосию своим домом? Ответ: false
 
 
 
+// Пример организации вопросов:
 
-const menuStr = printMenu(menu);
-
-
-console.log(menuStr); // В консоле должно вывести вот такую структуру меню со всеми отступами:
-/*
-* Mac
- - MacBook Pro 16”
- - iMac 24”
- - iMac 27”
- * Accessories
-  * Featured Magic
-    - Magic Keyboard
-    - Magic Trackpad
-  * Audio
-    - AirPods Pro
-    - AirPods Max
-* Ipad
- - iPad Pro 11”
- - iPad Pro 12.9”
- * Accessories
-  - Apple Pencil
-  - Smart Keyboard
-* Empty Category
-*/
+// const QUESTIONS = [
+//   {
+//     question: 'question 1',
+//     answer: 'write answer',
+//     type: 'prompt',
+//   },
+//   {
+//     question: 'question 2',
+//     answer: true,
+//     type: 'confirm',
+//   },
+// ];
 
 
-// export {
-//   menu,
-//   CATEGORY,
-//   PRODUCT,
-// };
 
-// Псевдокод:
-
-// function printMenu(меню, уровень_вложенности = 0) {
-//   отступ = пробел умноженный на количество уровень вложенности;
-//   результат = пустая строка;
-
-
-//   for (текущий_элемент_меню of меню) {
-//     if (тип текущий_элемент_меню равен PRODUCT) {
-//       прибавить к результату строку: отступ - имя текущий_элемент_меню добавить перевод строки \n
-//     } else if (тип текущий_элемент_меню равен категория) {
-//       прибавить к результату строку: отступ * имя текущий_элемент_меню добавить перевод строки \n вызвать printMenu(меню текущий_элемент_меню,  уровень_вложенности + 1)
-//     }
-//   }
-
-
-//   отевет результат
-// }
+// Пример организации вопросов:
